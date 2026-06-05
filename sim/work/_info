@@ -10,11 +10,11 @@ cModel Technology
 Z0 d//wsl.localhost/Ubuntu/home/obida/tiny-tensor-accelerator-rtl/sim
 vmac_unit
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-!s110 1780619001
+Z2 !s110 1780622630
 !i10b 1
 !s100 m;RQVzdEdT6_nIlRA22D?2
 In0=bWFJCV853^ze92JW711
-Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 VDg1SIo80bB@j0V0VzS_@n1
 !s105 mac_unit_sv_unit
 S1
 R0
@@ -22,23 +22,23 @@ w1780617796
 8../rtl/mac_unit.sv
 F../rtl/mac_unit.sv
 L0 1
-Z3 OV;L;10.5b;63
+Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z4 !s108 1780619001.000000
+Z5 !s108 1780622630.000000
 !s107 ../rtl/mac_unit.sv|
 !s90 -reportprogress|300|-sv|../rtl/mac_unit.sv|
 !i113 1
 o-sv
-Z5 tCvgOpt 0
+Z6 tCvgOpt 0
 vmac_unit_tb
 R1
 !s110 1780618411
 !i10b 1
 !s100 I_Z459^Y5CNGCEO^JFjBH3
 IjFMK3c`z7YkmJS`bDK9ae0
-R2
+R3
 !s105 mac_unit_tb_sv_unit
 S1
 R0
@@ -46,7 +46,7 @@ w1780617930
 8../tb/mac_unit_tb.sv
 F../tb/mac_unit_tb.sv
 L0 3
-R3
+R4
 r1
 !s85 0
 31
@@ -55,14 +55,62 @@ r1
 !s90 -reportprogress|300|-sv|../tb/mac_unit_tb.sv|
 !i113 1
 o-sv
+R6
+vmatrix_accelerator_2x2
+R1
+R2
+!i10b 1
+!s100 mZ]o<5MmkQIl9@m?C==m[1
+IJ6V1`PliV59A;Ma@5hlW<1
+R3
+!s105 matrix_accelerator_2x2_sv_unit
+S1
+R0
+w1780622627
+8../rtl/matrix_accelerator_2x2.sv
+F../rtl/matrix_accelerator_2x2.sv
+L0 1
+R4
+r1
+!s85 0
+31
 R5
+!s107 ../rtl/matrix_accelerator_2x2.sv|
+!s90 -reportprogress|300|-sv|../rtl/matrix_accelerator_2x2.sv|
+!i113 1
+o-sv
+R6
+vmatrix_accelerator_2x2_tb
+R1
+R2
+!i10b 1
+!s100 hob0j^G85cTXb9hPZzF@30
+IOg5^fzcVh_X_RO<z1ZBf:2
+R3
+!s105 matrix_accelerator_2x2_tb_sv_unit
+S1
+R0
+w1780622192
+8../tb/matrix_accelerator_2x2_tb.sv
+F../tb/matrix_accelerator_2x2_tb.sv
+L0 3
+R4
+r1
+!s85 0
+31
+R5
+!s107 ../tb/matrix_accelerator_2x2_tb.sv|
+!s90 -reportprogress|300|-sv|../tb/matrix_accelerator_2x2_tb.sv|
+!i113 1
+o-sv
+R6
 vmatrix_mult_2x2
 R1
-Z6 !s110 1780619002
+R2
 !i10b 1
 !s100 <fRcbQZUe<?gc:5N[Gn1o1
 Ih];fm[0hGUnnBT[n_a1821
-R2
+R3
 !s105 matrix_mult_2x2_sv_unit
 S1
 R0
@@ -70,23 +118,23 @@ w1780618819
 8../rtl/matrix_mult_2x2.sv
 F../rtl/matrix_mult_2x2.sv
 L0 1
-R3
+R4
 r1
 !s85 0
 31
-R4
+R5
 !s107 ../rtl/matrix_mult_2x2.sv|
 !s90 -reportprogress|300|-sv|../rtl/matrix_mult_2x2.sv|
 !i113 1
 o-sv
-R5
+R6
 vmatrix_mult_2x2_tb
 R1
-R6
+!s110 1780619002
 !i10b 1
 !s100 [T7UkK[l89[;Y49adLieJ3
 I7f?PM`a1G@EPWW@PUjz3B0
-R2
+R3
 !s105 matrix_mult_2x2_tb_sv_unit
 S1
 R0
@@ -94,7 +142,7 @@ w1780618839
 8../tb/matrix_mult_2x2_tb.sv
 F../tb/matrix_mult_2x2_tb.sv
 L0 3
-R3
+R4
 r1
 !s85 0
 31
@@ -103,4 +151,4 @@ r1
 !s90 -reportprogress|300|-sv|../tb/matrix_mult_2x2_tb.sv|
 !i113 1
 o-sv
-R5
+R6
