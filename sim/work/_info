@@ -10,7 +10,7 @@ cModel Technology
 Z0 d//wsl.localhost/Ubuntu/home/obida/tiny-tensor-accelerator-rtl/sim
 vmac_unit
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1780622630
+Z2 !s110 1780622855
 !i10b 1
 !s100 m;RQVzdEdT6_nIlRA22D?2
 In0=bWFJCV853^ze92JW711
@@ -26,12 +26,12 @@ Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1780622630.000000
+!s108 1780622854.000000
 !s107 ../rtl/mac_unit.sv|
 !s90 -reportprogress|300|-sv|../rtl/mac_unit.sv|
 !i113 1
 o-sv
-Z6 tCvgOpt 0
+Z5 tCvgOpt 0
 vmac_unit_tb
 R1
 !s110 1780618411
@@ -55,7 +55,7 @@ r1
 !s90 -reportprogress|300|-sv|../tb/mac_unit_tb.sv|
 !i113 1
 o-sv
-R6
+R5
 vmatrix_accelerator_2x2
 R1
 R2
@@ -74,23 +74,23 @@ R4
 r1
 !s85 0
 31
-R5
+Z6 !s108 1780622855.000000
 !s107 ../rtl/matrix_accelerator_2x2.sv|
 !s90 -reportprogress|300|-sv|../rtl/matrix_accelerator_2x2.sv|
 !i113 1
 o-sv
-R6
+R5
 vmatrix_accelerator_2x2_tb
 R1
 R2
 !i10b 1
-!s100 hob0j^G85cTXb9hPZzF@30
-IOg5^fzcVh_X_RO<z1ZBf:2
+!s100 c0k4gJ_W[dAdnao>[c85^0
+IhP^6GSQRQlA0P67M6N]M[1
 R3
 !s105 matrix_accelerator_2x2_tb_sv_unit
 S1
 R0
-w1780622192
+w1780622848
 8../tb/matrix_accelerator_2x2_tb.sv
 F../tb/matrix_accelerator_2x2_tb.sv
 L0 3
@@ -98,12 +98,12 @@ R4
 r1
 !s85 0
 31
-R5
+R6
 !s107 ../tb/matrix_accelerator_2x2_tb.sv|
 !s90 -reportprogress|300|-sv|../tb/matrix_accelerator_2x2_tb.sv|
 !i113 1
 o-sv
-R6
+R5
 vmatrix_mult_2x2
 R1
 R2
@@ -122,12 +122,12 @@ R4
 r1
 !s85 0
 31
-R5
+R6
 !s107 ../rtl/matrix_mult_2x2.sv|
 !s90 -reportprogress|300|-sv|../rtl/matrix_mult_2x2.sv|
 !i113 1
 o-sv
-R6
+R5
 vmatrix_mult_2x2_tb
 R1
 !s110 1780619002
@@ -151,4 +151,4 @@ r1
 !s90 -reportprogress|300|-sv|../tb/matrix_mult_2x2_tb.sv|
 !i113 1
 o-sv
-R6
+R5
