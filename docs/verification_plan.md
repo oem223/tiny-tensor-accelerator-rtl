@@ -82,16 +82,21 @@ The current verification is based on directed SystemVerilog tests.
 Not yet implemented:
 
 - Randomized testing
-- ModelSim confirmation of the new RTL testbench consuming Python reference vectors
 - A transaction-queue scoreboard for randomized traffic
 - Functional coverage
 - SystemVerilog assertions
 - 4x4 matrix support
 
-## 7. Next Regression Milestone
+## 7. Session 3 Simulation Evidence
 
-- Run `sim/run_matrix_accelerator_vectors.do` from `sim/` to check all eight Python reference cases. The testbench reads 12 signed decimal fields per line, checks E0-to-E5 latency and the expected result, holds each output for two cycles, and reports the first mismatch with both input matrices.
-- Generate seeded random matrix pairs after the directed vector regression passes in ModelSim.
+The user supplied a ModelSim Intel FPGA Edition 10.5b transcript on October 1, 2026. It shows all eight Python reference vectors matching RTL, followed by `PASS: 8 Python reference vectors matched RTL` and `$finish` at 756 ns. The visible accelerator and vector-testbench compile summaries report zero errors and zero warnings. A normal `$finish` break is the end of the test, not a failure.
+
+Reaching this summary means the procedural checks passed for all eight transactions: five-cycle result latency, signed arithmetic, two cycles of output backpressure, and return to idle after result consumption. This is directed simulation evidence for the default 8/32 configuration; it is not exhaustive verification or a coverage measurement.
+
+## 8. Next Regression Milestone
+
+- Preserve the passing directed regression: run `sim/run_matrix_accelerator_vectors.do` from `sim/` to check all eight Python reference cases. The testbench reads 12 signed decimal fields per line, checks E0-to-E5 latency and the expected result, holds each output for two cycles, and reports the first mismatch with both input matrices.
+- Generate seeded random matrix pairs, retaining the seed for reproducibility.
 - For seeded randomized traffic, compare multiple transactions and keep the failing seed and operands.
 - Vary input timing, output stalls, and reset during processing or a pending result.
 - Check valid/data stability under stalls and record which scenarios were exercised.
