@@ -1,0 +1,1 @@
+"""Reference arithmetic and vector generation for the 2x2 accelerator."""

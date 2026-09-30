@@ -132,7 +132,7 @@ This version uses four MAC units in parallel.
 The next design milestones are:
 
 1. Specify exact accepted-input-to-valid-output timing and width assumptions.
-2. Add a Python reference model and seeded randomized regression.
+2. Connect the existing Python reference vectors to RTL simulation, then add seeded random cases.
 3. Add assertions/checks for transaction and backpressure rules.
 4. Obtain a Quartus synthesis and timing baseline for the existing core.
 5. Design and verify an AXI4-Stream adapter around the current accelerator.

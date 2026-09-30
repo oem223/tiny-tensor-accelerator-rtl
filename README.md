@@ -2,7 +2,7 @@
 
 A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
 
-**Current status:** The RTL and directed self-checking testbenches are committed. A Python reference model, randomized regression, assertions, AXI4-Stream wrapper, and synthesis/timing reports are planned work; they are not implemented yet.
+**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The vectors are not connected to an RTL regression yet. Randomized regression, assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
 
 ## Computation and architecture
 
@@ -16,7 +16,9 @@ For signed matrices `A` and `B`, each result is `C[i][j] = A[i][0]*B[0][j] + A[i
 
 The accelerator accepts inputs on a rising edge with `valid_in && ready_in`. While processing or holding an output, `ready_in` is low. It presents a result with `valid_out`; if `ready_out` is low, `valid_out` and the result remain stable until a rising edge with `valid_out && ready_out`. These ports implement a project-specific ready/valid interface, **not AXI**.
 
-See the [interface contract draft](docs/interface_contract.md) for transaction and clock behaviour, [microarchitecture](docs/microarchitecture.md) for the existing FSM, and [verification plan](docs/verification_plan.md) for what is checked today and what remains to be built.
+See the [interface contract](docs/interface_contract.md) for transaction and clock behaviour, [microarchitecture](docs/microarchitecture.md) for the existing FSM, and [verification plan](docs/verification_plan.md) for what is checked today and what remains to be built.
+
+The independent [Python reference model](docs/reference_model.md) generates deterministic arithmetic vectors for the next verification milestone.
 
 ## Run the current directed tests
 
@@ -31,8 +33,8 @@ Run each command in a fresh simulator invocation. The scripts compile the RTL an
 
 ## Next milestone
 
-1. Specify signed arithmetic, transaction timing, and a reproducible verification matrix.
-2. Add a Python reference model and seeded randomized self-checking regression.
+1. Connect the Python reference vectors to a self-checking RTL regression and then add seeded random cases.
+2. Exercise reset and transaction timing corner cases.
 3. Add protocol assertions/checks and synthesize the current core for a baseline.
 4. Specify, implement, and verify an AXI4-Stream adapter around the existing core.
 5. Synthesize the integrated design and document actual resource/timing results.
