@@ -10,13 +10,14 @@ Design a small, explainable matrix-multiplication IP in SystemVerilog and build 
 - Default signed 8-bit inputs, signed 32-bit outputs; width parameters are present but alternate configurations have not been qualified.
 - Custom valid/ready input/output transaction interface, with output holding under backpressure.
 - Directed self-checking tests for arithmetic, reset, signed inputs, stalls, and input attempts while busy.
+- Independent Python arithmetic reference and deterministic signed-boundary vectors; not yet consumed by RTL simulation.
 
 See [microarchitecture](microarchitecture.md) and [verification plan](verification_plan.md) for details.
 
 ## Next milestone
 
-1. Correct and document the current transaction and cycle-level contract.
-2. Build a Python reference model and seeded, automated regression with boundary cases and stalls.
+1. Connect the fixed reference vectors to an automated RTL regression, then add seeded random cases and stalls.
+2. Check latency and reset during a transaction automatically.
 3. Add focused protocol assertions/checks and a verification matrix.
 4. Synthesize the existing core for a comparable baseline, with clock and I/O constraints recorded.
 5. Specify and implement an AXI4-Stream wrapper for 2x2 input/output transactions.
