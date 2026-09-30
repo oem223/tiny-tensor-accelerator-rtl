@@ -2,7 +2,7 @@
 
 ## 1. Verification Goal
 
-The goal of verification is to prove that the Tiny Tensor Accelerator computes signed 2x2 matrix multiplication correctly and follows the valid/ready handshake protocol.
+The goal of verification is to gather evidence that the Tiny Tensor Accelerator computes signed 2x2 matrix multiplication correctly and follows its custom valid/ready transaction rules. Directed simulations alone do not prove correctness for all possible inputs and timings.
 
 The current design under test is:
 
@@ -87,3 +87,14 @@ Not yet implemented:
 - Functional coverage
 - SystemVerilog assertions
 - 4x4 matrix support
+
+## 7. Next Regression Milestone
+
+- Define input ranges, reference arithmetic, and output-width/overflow assumptions.
+- Generate deterministic corner cases and seeded random matrix pairs with a Python reference model.
+- Compare outputs automatically for multiple transactions, keeping the failing seed and operands.
+- Vary input timing, output stalls, and reset during processing or a pending result.
+- Check valid/data stability under stalls and record which scenarios were exercised.
+- After the AXI4-Stream adapter is specified, test its actual signals and transfer rules at the external ports.
+
+Coverage numbers and AXI compliance must not be claimed until those checks are implemented and run.

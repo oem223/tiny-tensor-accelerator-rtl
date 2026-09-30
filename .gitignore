@@ -206,6 +206,12 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Generated simulator outputs; keep source scripts in sim/.
+sim/work/
+sim/*.wlf
+sim/transcript
+sim/*.vcd
+
 # PyPI configuration file
 .pypirc
 
