@@ -13,10 +13,10 @@ python3 -m unittest model.test_reference
 python3 -m model.generate_vectors
 ```
 
-The second command regenerates `vectors/directed_2x2.txt`. Each line contains **12 whitespace-separated decimal integers**:
+The second command checks `vectors/directed_2x2.txt` and rewrites it if its contents differ. Each line contains **12 whitespace-separated decimal integers**:
 
 ```text
 a00 a01 a10 a11 b00 b01 b10 b11 c00 c01 c10 c11
 ```
 
-There are no headings or comments in the vector file so a future SystemVerilog testbench can parse each line with `$fscanf`. The current testbenches do not read this file yet. Session 3 will connect these expected results to RTL simulation; later sessions add seeded random cases and protocol variations.
+There are no headings or comments in the vector file so the new `matrix_accelerator_vectors_tb.sv` can parse each line with `$fscanf`. From `sim/`, run `vsim -do run_matrix_accelerator_vectors.do` to test the default 8-bit/32-bit RTL with these eight cases. This ModelSim run is still pending. Later sessions add seeded random cases and protocol variations.

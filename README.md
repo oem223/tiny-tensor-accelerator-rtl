@@ -2,7 +2,7 @@
 
 A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
 
-**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The vectors are not connected to an RTL regression yet. Randomized regression, assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
+**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. A new file-driven RTL regression reads those vectors and checks arithmetic, the current five-cycle latency, and result stability during backpressure. Its ModelSim run is pending. Randomized regression, assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
 
 ## Computation and architecture
 
@@ -27,13 +27,16 @@ The `.do` scripts use ModelSim/Questa. From the `sim` directory, run:
 vsim -do run_mac_unit.do
 vsim -do run_matrix_mult_2x2.do
 vsim -do run_matrix_accelerator_2x2.do
+vsim -do run_matrix_accelerator_vectors.do
 ```
 
 Run each command in a fresh simulator invocation. The scripts compile the RTL and testbench, start simulation, and print PASS/FAIL results. A physical FPGA board is not required.
 
+The last script runs from `sim/` and reads `../vectors/directed_2x2.txt`. It must print eight individual `PASS: vector` messages and `PASS: 8 Python reference vectors matched RTL` before Session 3 can be marked verified.
+
 ## Next milestone
 
-1. Connect the Python reference vectors to a self-checking RTL regression and then add seeded random cases.
+1. Run and debug the new vector-fed RTL regression in ModelSim, then add seeded random cases.
 2. Exercise reset and transaction timing corner cases.
 3. Add protocol assertions/checks and synthesize the current core for a baseline.
 4. Specify, implement, and verify an AXI4-Stream adapter around the existing core.

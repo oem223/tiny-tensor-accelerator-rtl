@@ -82,17 +82,17 @@ The current verification is based on directed SystemVerilog tests.
 Not yet implemented:
 
 - Randomized testing
-- RTL testbench consuming the existing Python reference vectors
-- Scoreboard-based comparison
+- ModelSim confirmation of the new RTL testbench consuming Python reference vectors
+- A transaction-queue scoreboard for randomized traffic
 - Functional coverage
 - SystemVerilog assertions
 - 4x4 matrix support
 
 ## 7. Next Regression Milestone
 
-- Define input ranges, reference arithmetic, and output-width/overflow assumptions.
-- Feed the existing deterministic Python corner cases into RTL simulation; then generate seeded random matrix pairs.
-- Compare outputs automatically for multiple transactions, keeping the failing seed and operands.
+- Run `sim/run_matrix_accelerator_vectors.do` from `sim/` to check all eight Python reference cases. The testbench reads 12 signed decimal fields per line, checks E0-to-E5 latency and the expected result, holds each output for two cycles, and reports the first mismatch with both input matrices.
+- Generate seeded random matrix pairs after the directed vector regression passes in ModelSim.
+- For seeded randomized traffic, compare multiple transactions and keep the failing seed and operands.
 - Vary input timing, output stalls, and reset during processing or a pending result.
 - Check valid/data stability under stalls and record which scenarios were exercised.
 - After the AXI4-Stream adapter is specified, test its actual signals and transfer rules at the external ports.
