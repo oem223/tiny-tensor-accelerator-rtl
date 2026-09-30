@@ -124,17 +124,18 @@ This version uses four MAC units in parallel.
 
 - Uses more hardware than a single-MAC sequential design
 - Not yet scalable to larger matrices
-- No valid/ready interface yet
+- The current top-level interface uses custom valid/ready signals; it is not AXI4-Stream yet
 - No pipelining yet
 
 ## 11. Next Planned Improvements
 
 The next design milestones are:
 
-1. Add a cleaner accelerator interface.
-2. Add valid/ready handshaking.
-3. Add a 4x4 matrix multiplication version.
-4. Add randomized verification.
-5. Add Python golden model.
-6. Add Quartus synthesis reports.
-7. Compare area and latency tradeoffs.
+1. Specify exact accepted-input-to-valid-output timing and width assumptions.
+2. Add a Python reference model and seeded randomized regression.
+3. Add assertions/checks for transaction and backpressure rules.
+4. Obtain a Quartus synthesis and timing baseline for the existing core.
+5. Design and verify an AXI4-Stream adapter around the current accelerator.
+6. Compare baseline and integrated resource/timing reports under the same target and constraints.
+
+The separate `matrix_accelerator_2x2` module already implements the custom valid/ready interface and stores outputs until accepted. The state table above describes the inner `matrix_mult_2x2` core; the outer transaction controller adds input capture, core-start, and output-holding cycles. The approximate four-cycle figure above refers to the core, not the full top-level interface. Exact top-level latency should be established with a cycle-counted regression before publishing a performance number.

@@ -1,51 +1,32 @@
-# Tiny Tensor Accelerator RTL
+# Project Scope and Roadmap
 
 ## Goal
 
-This project implements a small matrix multiplication accelerator in SystemVerilog.
+Design a small, explainable matrix-multiplication IP in SystemVerilog and build evidence for RTL design, verification, integration, and synthesis/timing discussions. This is a design-first project: verification and implementation measurements support microarchitecture decisions.
 
-The goal is to practice chip-design-oriented RTL development, including datapath design, MAC units, control FSMs, signed arithmetic, valid/ready handshaking, pipelining, verification, waveform debugging, and synthesis analysis.
+## Current baseline
 
-## Motivation
+- Signed 2x2 multiplication with four parallel MAC units and a compute FSM.
+- Default signed 8-bit inputs, signed 32-bit outputs; width parameters are present but alternate configurations have not been qualified.
+- Custom valid/ready input/output transaction interface, with output holding under backpressure.
+- Directed self-checking tests for arithmetic, reset, signed inputs, stalls, and input attempts while busy.
 
-Matrix multiplication is a core operation in AI accelerators, GPUs, DSP systems, and many compute architectures.
+See [microarchitecture](microarchitecture.md) and [verification plan](verification_plan.md) for details.
 
-Each output element is computed using multiply-accumulate operations:
+## Next milestone
 
-C[i][j] = sum(A[i][k] * B[k][j])
+1. Correct and document the current transaction and cycle-level contract.
+2. Build a Python reference model and seeded, automated regression with boundary cases and stalls.
+3. Add focused protocol assertions/checks and a verification matrix.
+4. Synthesize the existing core for a comparable baseline, with clock and I/O constraints recorded.
+5. Specify and implement an AXI4-Stream wrapper for 2x2 input/output transactions.
+6. Verify the integrated wrapper and core, then synthesize and document resources, timing, and limits.
 
-This makes the project a good small-scale example of compute-accelerator design.
+## Potential later extensions
 
-## Planned Versions
+- One-MAC resource-shared architecture for a measured area/latency comparison.
+- Larger matrices or a systolic architecture, after deciding the memory/data-delivery scheme.
+- AXI4-Lite control registers if software-visible configuration becomes useful.
+- UVM environment if verification-focused roles justify the setup and simulator requirements.
 
-### Version 1
-
-2x2 signed matrix multiplication using MAC units.
-
-### Version 2
-
-FSM-controlled sequential matrix multiplication accelerator.
-
-### Version 3
-
-Parameterized 4x4 INT8 matrix multiplication accelerator.
-
-### Version 4
-
-Optional systolic-array architecture.
-
-### Version 5
-
-Synthesis reports, timing analysis, and documentation.
-
-## Target Skills
-
-- SystemVerilog RTL
-- Digital design
-- Microarchitecture
-- Datapath/control separation
-- MAC units
-- Signed arithmetic
-- Pipelining
-- Verification
-- Synthesis analysis
+Pipelining, 4x4 support, AXI, UVM, and ASIC physical design are not current capabilities.
