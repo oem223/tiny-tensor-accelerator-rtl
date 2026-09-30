@@ -24,11 +24,21 @@ def main() -> None:
     parser.add_argument("--output", type=Path, default=default_path)
     args = parser.parse_args()
 
+    lines = []
+    for _, a, b in CASES:
+        c = matmul_2x2(a, b)
+        lines.append(" ".join(map(str, (*a, *b, *c))))
+    data = ("\n".join(lines) + "\n").encode("ascii")
+
+    try:
+        if args.output.read_bytes() == data:
+            print(f"Already up to date: {args.output} ({len(CASES)} vectors)")
+            return
+    except FileNotFoundError:
+        pass
+
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    with args.output.open("w", encoding="ascii", newline="\n") as output:
-        for _, a, b in CASES:
-            c = matmul_2x2(a, b)
-            output.write(" ".join(map(str, (*a, *b, *c))) + "\n")
+    args.output.write_bytes(data)
     print(f"Wrote {len(CASES)} directed vectors to {args.output}")
 
 
