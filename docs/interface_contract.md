@@ -1,6 +1,6 @@
 # Current 2x2 Accelerator Interface Contract
 
-This document describes the existing `matrix_accelerator_2x2` RTL, before the planned AXI4-Stream adapter. The cycle count below follows the sequential logic and was manually checked against a ModelSim/Questa waveform on September 30, 2026. The current testbench does not yet assert the exact latency automatically.
+This document describes the existing `matrix_accelerator_2x2` RTL, before the planned AXI4-Stream adapter. The cycle count below follows the sequential logic and was manually checked against a ModelSim/Questa waveform on September 30, 2026. The Session 3 vector testbench now checks the exact five-cycle latency procedurally; all eight transactions passed in the user-supplied ModelSim transcript on October 1, 2026.
 
 ## Data and arithmetic
 
@@ -49,4 +49,5 @@ The input-acceptance-to-`valid_out` latency is **five clock periods** from E0 to
 
 - The user ran all three existing `.do` tests and reported that they passed. The supplied accelerator transcript shows the robust handshake test passing at 266 ns, including three cycles of output backpressure with stable result data.
 - The supplied waveform shows input acceptance, `core_start`, `core_done`, and `valid_out` in the E0–E5 order above. The five-cycle latency was checked visually, not by an automated latency assertion.
-- Still to check: reset during an in-flight computation or pending output; alternate parameters; simulator version/warnings; and an automated exact-latency check in the later regression.
+- Session 3 adds automated E0-to-E5 latency checks for eight vector transactions. The user-supplied ModelSim Intel FPGA Edition 10.5b transcript reports all vectors passed at 756 ns and zero errors/warnings in the visible accelerator and vector-testbench compile summaries.
+- Still to check: reset during an in-flight computation or pending output, alternate parameters, randomized traffic, and broader protocol coverage.
