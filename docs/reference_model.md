@@ -19,4 +19,4 @@ The second command checks `vectors/directed_2x2.txt` and rewrites it if its cont
 a00 a01 a10 a11 b00 b01 b10 b11 c00 c01 c10 c11
 ```
 
-There are no headings or comments in the vector file so the new `matrix_accelerator_vectors_tb.sv` can parse each line with `$fscanf`. From `sim/`, run `vsim -do run_matrix_accelerator_vectors.do` to test the default 8-bit/32-bit RTL with these eight cases. This ModelSim run is still pending. Later sessions add seeded random cases and protocol variations.
+There are no headings or comments in the vector file so the new `matrix_accelerator_vectors_tb.sv` can parse each line with `$fscanf`. From `sim/`, run `vsim -do run_matrix_accelerator_vectors.do` to test the default 8-bit/32-bit RTL with these eight cases. The user ran this regression in ModelSim Intel FPGA Edition 10.5b on October 1, 2026; all eight vectors matched RTL, with simulation finishing at 756 ns. Later sessions add seeded random cases and protocol variations.
