@@ -16,7 +16,7 @@ For signed matrices `A` and `B`, each result is `C[i][j] = A[i][0]*B[0][j] + A[i
 
 The accelerator accepts inputs on a rising edge with `valid_in && ready_in`. While processing or holding an output, `ready_in` is low. It presents a result with `valid_out`; if `ready_out` is low, `valid_out` and the result remain stable until a rising edge with `valid_out && ready_out`. These ports implement a project-specific ready/valid interface, **not AXI**.
 
-See [microarchitecture](docs/microarchitecture.md) for the existing FSM and [verification plan](docs/verification_plan.md) for what is checked today and what remains to be built.
+See the [interface contract draft](docs/interface_contract.md) for transaction and clock behaviour, [microarchitecture](docs/microarchitecture.md) for the existing FSM, and [verification plan](docs/verification_plan.md) for what is checked today and what remains to be built.
 
 ## Run the current directed tests
 
