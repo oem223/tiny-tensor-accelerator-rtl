@@ -1,6 +1,6 @@
-# Current 2x2 Accelerator Interface Contract (Session 1 Draft)
+# Current 2x2 Accelerator Interface Contract
 
-This document describes the existing `matrix_accelerator_2x2` RTL, before the planned AXI4-Stream adapter. The cycle count below follows the sequential logic and still needs confirmation in ModelSim/Questa.
+This document describes the existing `matrix_accelerator_2x2` RTL, before the planned AXI4-Stream adapter. The cycle count below follows the sequential logic and was manually checked against a ModelSim/Questa waveform on September 30, 2026. The current testbench does not yet assert the exact latency automatically.
 
 ## Data and arithmetic
 
@@ -24,7 +24,7 @@ This document describes the existing `matrix_accelerator_2x2` RTL, before the pl
 - At a rising edge with `valid_out && ready_out`, the transaction is consumed and the controller becomes idle. It cannot accept a new input on that same edge, because `ready_in` is low before the edge.
 - `busy` is high in both `A_BUSY` and `A_OUT` (including an output stall).
 
-## Expected clock sequence (to verify in simulation)
+## Clock sequence
 
 Assume a rising edge `E0` accepts an input transaction and no reset occurs:
 
@@ -37,7 +37,7 @@ Assume a rising edge `E0` accepts an input transaction and no reset occurs:
 | E4 | Waits. | Accumulates the `k=1` products; enters `S_DONE`. `core_done` becomes high after this edge. |
 | E5 | Captures all four completed results; enters `A_OUT`. | Leaves `S_DONE`. `valid_out` becomes high after this edge. |
 
-Thus the expected input-acceptance-to-`valid_out` latency is **five clock periods** from E0 to E5. This is an RTL-derived expectation, not a measured result yet. It excludes any time spent waiting for the receiver to assert `ready_out`.
+The input-acceptance-to-`valid_out` latency is **five clock periods** from E0 to E5 in the inspected waveform. This excludes any time spent waiting for the receiver to assert `ready_out`. The waveform also shows the result-valid state persisting during output backpressure.
 
 ## Reset and scope
 
@@ -45,9 +45,8 @@ Thus the expected input-acceptance-to-`valid_out` latency is **five clock period
 - Deassertion near a clock edge, reset recovery/removal timing, and alternate parameter combinations have not been qualified.
 - The interface is a custom ready/valid protocol. It is **not** AXI4-Stream; AXI signal choices and data packing belong to a separate future wrapper specification.
 
-## Session 1 confirmation checklist
+## Session 1 evidence and remaining checks
 
-1. Run the three existing `.do` tests in ModelSim/Questa and save PASS/FAIL output.
-2. In a waveform, identify the input handshake edge and the edge where `valid_out` rises; confirm or correct the E0–E5 table.
-3. Confirm that one accepted transaction yields one result, a stalled output remains stable, and reset cancels an in-flight result.
-4. Record the exact simulator version and any warnings before adding randomized tests.
+- The user ran all three existing `.do` tests and reported that they passed. The supplied accelerator transcript shows the robust handshake test passing at 266 ns, including three cycles of output backpressure with stable result data.
+- The supplied waveform shows input acceptance, `core_start`, `core_done`, and `valid_out` in the E0–E5 order above. The five-cycle latency was checked visually, not by an automated latency assertion.
+- Still to check: reset during an in-flight computation or pending output; alternate parameters; simulator version/warnings; and an automated exact-latency check in the later regression.
