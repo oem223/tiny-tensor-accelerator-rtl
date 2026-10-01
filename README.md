@@ -2,7 +2,7 @@
 
 A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
 
-**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; its ModelSim runs are pending. Assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
+**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seeds 17, 23, and 42 passed in ModelSim, and the reset/recovery waveform was reviewed. Assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
 
 ## Computation and architecture
 
@@ -36,8 +36,8 @@ The last script runs from `sim/` and reads `../vectors/directed_2x2.txt`. The ve
 
 ## Next milestone
 
-1. Run the [Session 4 seeded/reset regression](docs/session4_verification.md) for seeds 17, 23, and 42 and inspect the transaction accounting.
-2. Document architecture tradeoffs and add protocol assertions/checks.
+1. Document architecture tradeoffs and add protocol assertions/checks.
+2. Preserve the passing [Session 4 seeded/reset regression](docs/session4_verification.md) while making subsequent changes.
 3. Produce a synthesis baseline with an exact FPGA target, clock/IO constraints, resource counts, and post-fit timing results.
 4. Specify, implement, and verify an AXI4-Stream adapter around the existing core.
 5. Synthesize the integrated design and document actual resource/timing results.

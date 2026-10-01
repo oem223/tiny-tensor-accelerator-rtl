@@ -85,11 +85,19 @@ PASS: Session 4 seed=17 vectors=108 pending_pair=1 reset_scenarios=5
 
 The seed changes for the other runs. A failure stops the run with a seed, case, or named scenario. An arithmetic mismatch prints both matrices and expected/actual results. Save that transcript before changing the stimulus.
 
-## Evidence and completion gate
+## Evidence and scope
 
-Local Python checks pass: seven unit tests and generation of seeds 17, 23, and 42. The HDL simulator is unavailable in the agent workspace. All three ModelSim runs, warnings review, and inspection of a reset/pending-input waveform are pending. Do not claim that Session 4 RTL verification passed until these runs complete.
+Local Python checks pass: seven unit tests and generation of seeds 17, 23, and 42. The HDL simulator is unavailable in the agent workspace. The user-supplied ModelSim transcript on October 1, 2026 shows seed 17 passing at 16,406 ns: 108 vectors, the pending-input pair, and five reset/recovery scenarios. The visible regression-testbench compile summary reports zero errors and zero warnings. Accounting is accepted=120, consumed=115, checked=115, cancelled=5. Scenario counts are always_ready=32, short_stall=53, long_stall=23, input_gap=80, stalled_edges=610, resets=5. The user supplied passing transcripts for seeds 23 and 42 as well. All three runs report accepted=120, consumed=115, checked=115, cancelled=5, with the pending-input pair and all five reset scenarios passing. The supplied seed-42 waveform was reviewed on October 1, 2026. Around 15,238 ns, reset asserts between rising edges while an output is pending (`valid_out=1`, `ready_out=0`). The visible result registers clear, valid/busy deassert, and input ready returns high. Reset releases around 15,250 ns; no stale result appears during the idle interval. A fresh input is accepted around 15,325 ns and produces [19 22; 43 50] with result valid around 15,375 ns, five clock periods later. Session 4 functional verification is complete for the tested default configuration and scenarios. This evidence does not qualify physical reset timing or exhaustive coverage; zero-error/zero-warning claims are limited to the visible regression-testbench compile summary.
 
-## Knowledge
+| Seed | Result | Finish time (ns) | Always ready | Short stall | Long stall | Input gaps | Stalled edges |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | PASS | 16406 | 32 | 53 | 23 | 80 | 610 |
+| 23 | PASS | 15146 | 27 | 65 | 16 | 81 | 484 |
+| 42 | PASS | 15416 | 24 | 69 | 15 | 81 | 499 |
+
+These are three 108-vector runs: eight directed arithmetic cases are repeated per seed, with 100 seeded random rows per run. No coverage percentage is inferred from these counts.
+
+## Knowledge and interview practice
 
 Review rising-edge handshakes, signed widths, FSM states, blocking versus nonblocking assignment, asynchronous reset, and the distinction between latency and output waiting time.
 
