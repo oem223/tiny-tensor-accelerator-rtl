@@ -77,13 +77,13 @@ valid_out == 1 && ready_out == 1
 
 ## 6. Current Limitations
 
-The current verification is based on directed SystemVerilog tests.
+The current verification uses directed and Python-seeded SystemVerilog simulations. The Session 4 scenario counters show exercised cases; they are not formal functional/code coverage percentages.
 
 Not yet implemented:
 
 - A transaction-queue scoreboard for randomized traffic
 - Functional coverage
-- SystemVerilog assertions
+- Concurrent temporal SVA and formal verification
 - 4x4 matrix support
 
 ## 7. Session 3 Simulation Evidence
@@ -102,3 +102,11 @@ Reaching this summary means the procedural checks passed for all eight transacti
 - After the AXI4-Stream adapter is specified, test its actual signals and transfer rules at the external ports.
 
 Coverage numbers and AXI compliance must not be claimed until those checks are implemented and run.
+
+## 9. Session 5 Protocol Assertions
+
+The [Session 5 guide](session5_design_review.md) maps requirements to a reusable `accelerator_protocol_checker` attached to the fixed-vector and seeded testbenches. Named immediate assertions check known controls/payloads, source and output stability after stalls, one outstanding transaction, exact clock-edge result timing, and idle behavior without a pending transaction. Asynchronous reset clears checker history; the existing testbench verifies DUT reset clearing and recovery.
+
+The checker samples before nonblocking updates, so an E0 acceptance leads to its first high `valid_out` sample at E6; the existing post-update E5 check is retained. The original busy-input robustness test deliberately withdraws an unaccepted input and therefore does not use the source-stability checker.
+
+The checker self-test includes a legal trace and three deliberate violations: output corruption under stall, input withdrawal under stall, and an early result. Acceptance requires the legal trace to pass and each illegal trace to stop with the intended assertion, followed by the actual vector/seed regressions passing. These newly added tests have not yet been run in ModelSim; earlier Session 3/4 evidence does not establish that they pass.

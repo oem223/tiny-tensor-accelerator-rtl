@@ -71,13 +71,13 @@ The design uses a finite state machine with the following states:
 
 ## 6. Cycle-Level Operation
 
-After `start` is asserted:
+After a rising edge accepts `start` while the core is idle:
 
 1. Input matrices are captured into internal registers.
 2. The MAC accumulators are cleared.
 3. The first multiplication step is executed.
 4. The second multiplication step is executed.
-5. `done` is asserted.
+5. `done` becomes high after the same edge that accumulates the second product.
 
 ## 7. K0 Computation
 
@@ -99,15 +99,16 @@ c11 accumulates a11*b11
 
 ## 9. Latency
 
-The current design takes approximately 4 cycles from `start` to `done`:
+The inner core takes **three clock periods** from accepting `start` to asserting `done`. It performs arithmetic on two of those edges:
 
 | Cycle | Operation |
 |------:|-----------|
-| 0 | Capture inputs |
-| 1 | Clear MACs |
-| 2 | Compute K0 |
-| 3 | Compute K1 |
-| 4 | Done asserted |
+| 0 | Capture inputs; enter `S_CLEAR` |
+| 1 | Clear MACs; enter `S_COMPUTE_K0` |
+| 2 | Compute K0; enter `S_COMPUTE_K1` |
+| 3 | Compute K1; enter `S_DONE`; `done` becomes high after the edge |
+
+The complete `matrix_accelerator_2x2` has a **five-clock-period result latency** from its input handshake to `valid_out` becoming high. With continuously available input transactions and an always-ready receiver, its minimum input acceptance interval is **seven clock periods**. These are different quantities: two arithmetic updates, three-period inner-core latency, five-period top-level result latency, and seven-period top-level initiation interval. See the [interface contract](interface_contract.md) for E0 through E7 and the [design tradeoffs](design_tradeoffs.md) for their implications. The seven-period interval is derived from the current RTL; no implemented clock frequency or matrices/second measurement is available yet.
 
 ## 10. Architecture Choice
 
@@ -131,11 +132,11 @@ This version uses four MAC units in parallel.
 
 The next design milestones are:
 
-1. Specify exact accepted-input-to-valid-output timing and width assumptions.
-2. Connect the existing Python reference vectors to RTL simulation, then add seeded random cases.
-3. Add assertions/checks for transaction and backpressure rules.
+1. Preserve the passing fixed-vector and seeded/reset regressions.
+2. Run the Session 5 protocol checker and its deliberate-fault tests.
+3. Review the documented architecture choices before changing the datapath.
 4. Obtain a Quartus synthesis and timing baseline for the existing core.
 5. Design and verify an AXI4-Stream adapter around the current accelerator.
 6. Compare baseline and integrated resource/timing reports under the same target and constraints.
 
-The separate `matrix_accelerator_2x2` module already implements the custom valid/ready interface and stores outputs until accepted. The state table above describes the inner `matrix_mult_2x2` core; the outer transaction controller adds input capture, core-start, and output-holding cycles. The approximate four-cycle figure above refers to the core, not the full top-level interface. Exact top-level latency should be established with a cycle-counted regression before publishing a performance number.
+The state table describes the inner `matrix_mult_2x2` core. The outer transaction controller adds input capture, a registered core-start handoff, and result capture/holding. The Session 3 and Session 4 regressions have already checked the five-period top-level result latency for the tested transactions.

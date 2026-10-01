@@ -38,6 +38,16 @@ module matrix_accelerator_vectors_tb;
         .busy(busy)
     );
 
+    accelerator_protocol_checker #(
+        .INPUT_BITS(8*IN_WIDTH), .OUTPUT_BITS(4*ACC_WIDTH),
+        .RESULT_LATENCY(RESULT_LATENCY)
+    ) protocol_checks (
+        .clk(clk), .rst_n(rst_n), .valid_in(valid_in), .ready_in(ready_in),
+        .input_payload({a00, a01, a10, a11, b00, b01, b10, b11}),
+        .valid_out(valid_out), .ready_out(ready_out),
+        .output_payload({c00, c01, c10, c11}), .busy(busy)
+    );
+
     always #5 clk = ~clk;
 
     initial begin

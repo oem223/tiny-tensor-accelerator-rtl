@@ -2,7 +2,7 @@
 
 A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
 
-**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seeds 17, 23, and 42 passed in ModelSim, and the reset/recovery waveform was reviewed. Assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
+**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seeds 17, 23, and 42 passed in ModelSim, and the reset/recovery waveform was reviewed. Session 5 adds a design-tradeoff review and reusable immediate protocol assertions with deliberate-fault tests; these new HDL changes await ModelSim validation. AXI4-Stream and synthesis/timing reports remain planned work.
 
 ## Computation and architecture
 
@@ -18,7 +18,7 @@ The accelerator accepts inputs on a rising edge with `valid_in && ready_in`. Whi
 
 See the [interface contract](docs/interface_contract.md) for transaction and clock behaviour, [microarchitecture](docs/microarchitecture.md) for the existing FSM, and [verification plan](docs/verification_plan.md) for what is checked today and what remains to be built.
 
-The independent [Python reference model](docs/reference_model.md) generates deterministic arithmetic vectors for the next verification milestone.
+The independent [Python reference model](docs/reference_model.md) generates the deterministic arithmetic vectors used by the RTL regressions. See the [design tradeoffs](docs/design_tradeoffs.md) for exact latency, initiation interval, signed width reasoning, and alternative architectures.
 
 ## Run the current directed tests
 
@@ -36,7 +36,7 @@ The last script runs from `sim/` and reads `../vectors/directed_2x2.txt`. The ve
 
 ## Next milestone
 
-1. Document architecture tradeoffs and add protocol assertions/checks.
+1. Complete [Session 5](docs/session5_design_review.md): review architecture tradeoffs and run the protocol checker, deliberate-fault tests, and checker-enabled regressions.
 2. Preserve the passing [Session 4 seeded/reset regression](docs/session4_verification.md) while making subsequent changes.
 3. Produce a synthesis baseline with an exact FPGA target, clock/IO constraints, resource counts, and post-fit timing results.
 4. Specify, implement, and verify an AXI4-Stream adapter around the existing core.
