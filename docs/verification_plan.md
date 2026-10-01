@@ -81,7 +81,6 @@ The current verification is based on directed SystemVerilog tests.
 
 Not yet implemented:
 
-- ModelSim confirmation of the new seeded random/reset regression
 - A transaction-queue scoreboard for randomized traffic
 - Functional coverage
 - SystemVerilog assertions
@@ -96,7 +95,7 @@ Reaching this summary means the procedural checks passed for all eight transacti
 ## 8. Next Regression Milestone
 
 - Preserve the passing directed regression: run `sim/run_matrix_accelerator_vectors.do` from `sim/` to check all eight Python reference cases. The testbench reads 12 signed decimal fields per line, checks E0-to-E5 latency and the expected result, holds each output for two cycles, and reports the first mismatch with both input matrices.
-- Run the new [Session 4 regression](session4_verification.md) for seeds 17, 23, and 42. It includes 8 directed and 100 random pairs per seed, input gaps, always-ready outputs, 1/2/5/20-cycle stalls, a held-pending input pair, and reset after E0/E1/E3/E4/E5 with fresh transactions afterward. These HDL runs are pending.
+- Run the new [Session 4 regression](session4_verification.md) for seeds 17, 23, and 42. It includes 8 directed and 100 random pairs per seed, input gaps, always-ready outputs, 1/2/5/20-cycle stalls, a held-pending input pair, and reset after E0/E1/E3/E4/E5 with fresh transactions afterward. All three runs passed in user-supplied ModelSim transcripts; each reports accepted=120, consumed=115, checked=115, cancelled=5. The seed-42 reset/recovery waveform was reviewed and matches the contract.
 - Compare transaction accounting: accepted inputs must equal checked outputs plus reset cancellations; consumed outputs must equal checked outputs.
 - Retain the failing seed, vector file, source/tool versions, and transcript for reproducibility.
 - Check valid/data stability under stalls and record which scenarios were exercised.
