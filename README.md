@@ -1,6 +1,6 @@
 # Matrix Multiplication Accelerator
 
-A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
+An independent SystemVerilog RTL project implementing a signed 2x2 matrix-multiplication accelerator, with signed 8-bit inputs and 32-bit results in the default configuration. Four parallel multiply-accumulate (MAC) units and FSM-based control compute the results, while a custom ready/valid interface holds them under backpressure. Verification combines an independent Python reference model with self-checking ModelSim simulations covering arithmetic corner cases, stalls, and reset recovery.
 
 **Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seeds 17, 23, and 42 passed in ModelSim, and the reset/recovery waveform was reviewed. Session 5 adds a design-tradeoff review and reusable immediate protocol assertions with deliberate-fault tests; these new HDL changes await ModelSim validation. AXI4-Stream and synthesis/timing reports remain planned work.
 
