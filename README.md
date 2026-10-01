@@ -2,7 +2,7 @@
 
 A small SystemVerilog accelerator for signed 2x2 matrix multiplication. The current design uses four parallel multiply-accumulate (MAC) units, a control FSM, and a custom valid/ready transaction interface.
 
-**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seed 17 passed in ModelSim at 16,406 ns, while seeds 23/42 and waveform review remain pending. Assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
+**Current status:** The RTL, directed self-checking testbenches, Python arithmetic reference, and fixed boundary vectors are committed. The Session 3 file-driven regression passed all eight vectors in ModelSim Intel FPGA Edition 10.5b on October 1, 2026 at 756 ns. Session 4 adds seeded vectors, variable stalls, pending-input tests, and reset cancellation/recovery checks; seeds 17, 23, and 42 passed in ModelSim, while waveform/full warnings review remains pending. Assertions, AXI4-Stream wrapper, and synthesis/timing reports remain planned work.
 
 ## Computation and architecture
 
