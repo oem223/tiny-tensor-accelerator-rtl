@@ -15,6 +15,7 @@ This document describes the existing `matrix_accelerator_2x2` RTL, before the pl
 - At a rising edge with `valid_in && ready_in`, the outer controller captures all eight input elements and becomes busy.
 - Changes to input pins while `ready_in` is low do not change the accepted transaction.
 - The module does not queue another transaction while busy or while holding an output.
+- A well-behaved source that offers `valid_in` while `ready_in` is low must hold `valid_in` and all input elements until a transfer edge or reset. The Session 5 checker enforces this driver obligation; the DUT's capture rule still ignores unaccepted pins.
 
 ## Output transaction
 
@@ -36,8 +37,12 @@ Assume a rising edge `E0` accepts an input transaction and no reset occurs:
 | E3 | Waits. | Accumulates the `k=0` products; enters `S_COMPUTE_K1`. |
 | E4 | Waits. | Accumulates the `k=1` products; enters `S_DONE`. `core_done` becomes high after this edge. |
 | E5 | Captures all four completed results; enters `A_OUT`. | Leaves `S_DONE`. `valid_out` becomes high after this edge. |
+| E6 | With `ready_out=1`, consumes the result and enters `A_IDLE`. No input transfer on this edge. | Idle. |
+| E7 | Can accept the next waiting input. | Idle; receives the next registered start afterward. |
 
 The input-acceptance-to-`valid_out` latency is **five clock periods** from E0 to E5 in the inspected waveform. This excludes any time spent waiting for the receiver to assert `ready_out`. The waveform also shows the result-valid state persisting during output backpressure.
+
+With an always-ready receiver and a waiting source, the RTL-derived minimum input acceptance interval is **seven clock periods** (E0 to E7), giving ideal throughput `f_clk/7` matrices per second. No achievable clock frequency has been measured yet. Output stalls or input gaps lower throughput. The pre-edge Session 5 monitor first observes the E5-registered `valid_out` at E6; this sampling convention does not add a hardware cycle.
 
 ## Reset and scope
 
