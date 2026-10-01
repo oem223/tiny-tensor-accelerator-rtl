@@ -212,6 +212,9 @@ sim/*.wlf
 sim/transcript
 sim/*.vcd
 
+# Additional seeded regression files are reproducible; keep seed 17 committed.
+vectors/regression_seed*.txt
+
 # PyPI configuration file
 .pypirc
 
